@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-pushd docker-compose-letsencrypt-nginx-proxy-companion
+pushd build/proxy
 ./start.sh
-
 popd
 
-pushd docker-koken-letsencrypt
+pushd build/koken
 ./start.sh
-
 popd

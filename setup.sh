@@ -12,8 +12,9 @@ if [ -z ${DATA_VOLUME+x} ]; then
     VOLUME_MOUNT=/mnt/koken-data-volume
     KOKEN_DATA_PATH=${VOLUME_MOUNT}/koken-data
 
-    mkdir ${KOKEN_DATA_PATH}
+    mkdir ${VOLUME_MOUNT}
     mount -o discard,defaults ${VOLUME_MOUNT} ${KOKEN_DATA_PATH}
+    mkdir ${KOKEN_DATA_PATH}
 else
     KOKEN_DATA_PATH=/var/koken
     mkdir -p KOKEN_DATA_PATH
@@ -28,13 +29,13 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 # install letsencrypt-companion
-git clone https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion.git
+git clone https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion.git build/proxy
 
 # generate env file for companion
-cp nginx-proxy.env ./docker-compose-letsencrypt-nginx-proxy-companion/.env
+cp nginx-proxy.env build/proxy/.env
 
 # install koken-docker-compose
-git clone https://github.com/igin/docker-koken-letsencrypt.git
+git clone https://github.com/igin/docker-koken-letsencrypt.git build/koken
 
 # generate env file for koken
 MYSQL_ROOT_PASSWORD=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
@@ -55,5 +56,5 @@ LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
 DOMAIN=${DOMAIN}
 EOL
 
-cp koken.gen.env ./docker-koken-letsencrypt/.env
+cp koken.gen.env build/koken/.env
 
