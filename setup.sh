@@ -21,8 +21,10 @@ else
 fi
 
 # Install docker
-curl -fsSL https://get.docker.com -o get-docker.sh
+curl -fsSL https://get.docker.com -o build/get-docker.sh
+pushd build
 sh get-docker.sh
+popd
 
 # install docker compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -41,7 +43,7 @@ git clone https://github.com/igin/docker-koken-letsencrypt.git build/koken
 MYSQL_ROOT_PASSWORD=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
 MYSQL_PASSWORD=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
 
-cat >koken.gen.env <<EOL
+cat >build/koken/.env <<EOL
 CONTAINER_NAME=koken
 NETWORK=webproxy
 MYSQL_DATABASE=koken
@@ -55,6 +57,4 @@ MYSQL_PASSWORD=${MYSQL_PASSWORD}
 LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
 DOMAIN=${DOMAIN}
 EOL
-
-cp koken.gen.env build/koken/.env
 
