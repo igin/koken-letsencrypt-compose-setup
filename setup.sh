@@ -39,10 +39,6 @@ cp nginx-proxy.env build/proxy/.env
 echo "Setting up koken"
 git clone https://github.com/igin/docker-koken-letsencrypt.git build/koken
 
-# generate passwords for koken
-MYSQL_ROOT_PASSWORD=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
-MYSQL_PASSWORD=$(dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev)
-
 cat >build/koken/.env <<EOL
 CONTAINER_NAME=koken
 NETWORK=webproxy
