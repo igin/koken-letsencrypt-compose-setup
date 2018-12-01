@@ -12,9 +12,9 @@ if [ -z ${DATA_VOLUME+x} ]; then
     VOLUME_MOUNT=/mnt/koken-data-volume
     KOKEN_DATA_PATH=${VOLUME_MOUNT}/koken-data
 
-    mkdir ${VOLUME_MOUNT}
-    mount -o discard,defaults ${VOLUME_MOUNT} ${KOKEN_DATA_PATH}
-    mkdir ${KOKEN_DATA_PATH}
+    mkdir -p ${VOLUME_MOUNT}
+    mount -o discard,defaults ${DATA_VOLUME} ${VOLUME_MOUNT}
+    mkdir -p ${KOKEN_DATA_PATH}
 else
     KOKEN_DATA_PATH=/var/koken
     mkdir -p KOKEN_DATA_PATH
