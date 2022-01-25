@@ -33,7 +33,10 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 echo "Setting up proxy"
-git clone https://github.com/evertramos/docker-compose-letsencrypt-nginx-proxy-companion.git build/proxy
+git clone --recurse-submodules https://github.com/evertramos/nginx-proxy-automation.git build/proxy
+pushd ./build/proxy/bin
+./fresh-start.sh --yes -e ${LETSENCRYPT_EMAIL} --skip-docker-image-check
+
 cp nginx-proxy.env build/proxy/.env
 
 echo "Setting up koken"
@@ -41,7 +44,7 @@ git clone https://github.com/igin/docker-koken-letsencrypt.git build/koken
 
 cat >build/koken/.env <<EOL
 CONTAINER_NAME=koken
-NETWORK=webproxy
+NETWORK=proxy
 MYSQL_DATABASE=koken
 MYSQL_USER=koken
 KOKEN_DATA_DIR=${KOKEN_DATA_PATH}/koken
