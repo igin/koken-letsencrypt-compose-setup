@@ -36,8 +36,7 @@ echo "Setting up proxy"
 git clone --recurse-submodules https://github.com/evertramos/nginx-proxy-automation.git build/proxy
 pushd ./build/proxy/bin
 ./fresh-start.sh --yes -e ${LETSENCRYPT_EMAIL} --skip-docker-image-check
-
-cp nginx-proxy.env build/proxy/.env
+popd
 
 echo "Setting up koken"
 git clone https://github.com/igin/docker-koken-letsencrypt.git build/koken
